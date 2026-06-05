@@ -3,7 +3,7 @@ import pytest
 import requests
 from data.url import URL
 from helpers.courier_helper import CourierHelper 
-
+from helpers.courier_api import CourierApi
 @allure.epic("API Яндекс Самокат")
 @allure.feature("Курьеры")
 class TestCreateCourier:
@@ -20,10 +20,10 @@ class TestCreateCourier:
        
         assert response.status_code == 201
         assert response.json() == {"ok": True}
-        courier_id = CourierHelper.login_courier(login, password)
-        CourierHelper.delete_courier(courier_id)
+        courier_id = CourierApi.login_courier(login, password)
+        CourierApi.delete_courier(courier_id)
     @allure.story("Создание курьера")
-    @allure.title("Нельзя создать двух одинаковых курьеров")
+    @allure.title("Нельзя создать двух одинаковых курьеров (ошибка 409)")
     def test_create_duplicate_courier_error(self,new_courier):
         """Нельзя создать двух одинаковых курьеров (ошибка 409)"""
         
@@ -38,7 +38,7 @@ class TestCreateCourier:
         assert response.status_code == 409
         assert response.json()["message"] == "Этот логин уже используется. Попробуйте другой."
     @allure.story("Валидация обязательных полей")
-    @allure.title("Ошибка при создании без поля login")   
+    @allure.title("Ошибка при создании без поля login (ошибка 400)")   
     def test_create_courier_without_login_error(self):
         """Ошибка при создании курьера без обязательного поля login (ошибка 400)"""
         
@@ -46,7 +46,7 @@ class TestCreateCourier:
         first_name = CourierHelper.generate_random_string(10)
 
         
-        response = CourierHelper.create_courier(
+        response = CourierApi.create_courier(
             password=password,
             first_name=first_name
         )
@@ -55,7 +55,7 @@ class TestCreateCourier:
         assert response.status_code == 400
         assert response.json()["message"] == "Недостаточно данных для создания учетной записи"
     @allure.story("Валидация обязательных полей")
-    @allure.title("Ошибка при создании без поля password")
+    @allure.title("Ошибка при создании без поля password (ошибка 400)")
     def test_create_courier_without_password_error(self):
         """Ошибка при создании курьера без обязательного поля password (ошибка 400)"""
        
@@ -63,7 +63,7 @@ class TestCreateCourier:
         first_name = CourierHelper.generate_random_string(10)
 
         # Вызываем метод без логина через хелпер
-        response = CourierHelper.create_courier(
+        response = CourierApi.create_courier(
           login=login,
           first_name=first_name
         )
@@ -82,7 +82,7 @@ class TestCreateCourier:
         login = CourierHelper.generate_random_string(10)
 
         
-        response = CourierHelper.create_courier(
+        response = CourierApi.create_courier(
             password=password,
             login=login
         )

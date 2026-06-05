@@ -3,7 +3,7 @@ import pytest
 import requests
 from data.url import URL
 from helpers.order_helper import OrderHelper
-
+from helpers.courier_api import CourierApi
 @allure.feature("Заказы")
 class TestCreateOrder:
     @allure.story("Создание заказа")

@@ -6,6 +6,7 @@ from data.constants import CreatedOrder
 class OrderHelper:
 
     @staticmethod
+    @allure.step("Создание заказа")
     def create_order(color):
         
         payload =CreatedOrder.CREATE_ORDER_DATA.copy()  
@@ -17,6 +18,7 @@ class OrderHelper:
         return response
 
     @staticmethod
+    @allure.step("Отмена заказа")
     def cancel_order(track):
       
         order_data = {"track": track}

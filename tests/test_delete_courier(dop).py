@@ -3,7 +3,7 @@ import pytest
 import requests
 from data.url import URL
 from helpers.courier_helper import CourierHelper
-
+from helpers.courier_api import CourierApi
 
 
 @allure.feature("Удаление курьера")
@@ -15,7 +15,7 @@ class TestDeleteCourier:
         payload = CourierHelper.generate_random_courier_data()
         requests.post(f"{URL.COURIER_URL}", data=payload)
 
-        courier_id = CourierHelper.login_courier(payload['login'], payload['password'])
+        courier_id = CourierApi.login_courier(payload['login'], payload['password'])
 
         response = requests.delete(f"{URL.COURIER_URL}/{courier_id}")
         
@@ -31,7 +31,7 @@ class TestDeleteCourier:
         
         assert response.status_code in [400, 404]
         
-    @allure.title("Удаление курьера с несуществующим ID")
+    @allure.title("Удаление курьера с несуществующим ID ошибку 404")
     def test_delete_courier_non_existent_id_returns_error(self):
         """Запрос на удаление курьера с несуществующим id возвращает ошибку 404"""
        

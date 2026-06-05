@@ -3,6 +3,7 @@ import pytest
 import requests
 from data.url import URL
 from helpers.courier_helper import CourierHelper
+from helpers.courier_api import CourierApi
 
 @allure.epic("Управление курьерами")
 @allure.feature("Авторизация курьера")
@@ -44,7 +45,8 @@ class TestLoginCourier:
         assert response.status_code == 400
         assert response.json()["message"] == "Недостаточно данных для входа"
 
-    @allure.title("Логин с неверным паролем")
+   
+    @allure.title("Логин с неверным паролем ошибку 404 ")
     def test_login_wrong_password_returns_error(self, new_courier):
         """Система вернёт ошибку 404, если указать неправильный пароль"""
         
@@ -60,9 +62,9 @@ class TestLoginCourier:
 
         assert response.status_code == 404
         assert response.json()["message"] == "Учетная запись не найдена"
-    @allure.title("Логин с неверным логином")   
+    @allure.title("Система вернёт ошибку 404, если указать неправильный логин ")   
     def test_login_wrong_login_returns_error(self, new_courier):
-        """Система вернёт ошибку 404, если указать неправильный логин"""
+        
         
         password = new_courier[1]
 
@@ -77,10 +79,9 @@ class TestLoginCourier:
         assert response.status_code == 404
         assert response.json()["message"] == "Учетная запись не найдена"
 
-    @allure.title("Логин без обязательных полей (логин/пароль)")
+    @allure.title("Если авторизоваться под несуществующим пользователем, возвращается ошибка 404)")
     def test_login_non_existent_courier_returns_error(self):
-        """Если авторизоваться под несуществующим пользователем, возвращается ошибка 404"""
-        # Генерируем случайные строки, которых заведомо нет в базе данных
+       
         random_login = CourierHelper.generate_random_string(10)
         random_password = CourierHelper.generate_random_string(10)
 
