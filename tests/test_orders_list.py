@@ -2,7 +2,7 @@ import allure
 import pytest
 import requests
 from data.url import URL
-from helpers.courier_api import CourierApi
+from api.courier_api import CourierApi
 @allure.feature("Список заказов")
 class TestOrdersList:
     @allure.title("Получение полного списка заказов возвращает статус 200 и список объектов")

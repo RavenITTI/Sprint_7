@@ -2,8 +2,8 @@ import allure
 import pytest
 import requests
 from data.url import URL
-from helpers.order_helper import OrderHelper
-from helpers.courier_api import CourierApi
+from api.order_api import OrderApi
+from api.courier_api import CourierApi
 @allure.feature("Заказы")
 class TestCreateOrder:
     @allure.story("Создание заказа")
@@ -16,7 +16,7 @@ class TestCreateOrder:
     def test_create_order_with_various_colors_returns_track(self, color):
         """Проверка создания заказа с разными вариантами цветов и получение track-номера"""
         
-        response = OrderHelper.create_order(color)
+        response = OrderApi.create_order(color)
 
         assert response.status_code == 201, f"Ожидали код 201, но получили {response.status_code}"
 
@@ -24,4 +24,4 @@ class TestCreateOrder:
         assert "track" in response_body, "В ответе отсутствует обязательное поле 'track'"
 
         assert type(response_body["track"]) is int, "Поле 'track' должно быть целым числом"
-        OrderHelper.cancel_order(response_body["track"])
+        OrderApi.cancel_order(response_body["track"])

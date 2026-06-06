@@ -3,7 +3,7 @@ import pytest
 import requests
 from data.url import URL
 from helpers.courier_helper import CourierHelper
-from helpers.courier_api import CourierApi
+from api.courier_api import CourierApi
 @allure.feature("Принятие заказа курьером")
 class TestAcceptOrder:
     @allure.title("Курьер успешно принимает заказ")

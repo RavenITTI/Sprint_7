@@ -1,8 +1,8 @@
 import allure
 import pytest
 from helpers.courier_helper import CourierHelper
-from helpers.order_helper import OrderHelper
-from helpers.courier_api import CourierApi
+from api.order_api import OrderApi
+from api.courier_api import CourierApi
 @pytest.fixture
 def new_courier():
     
@@ -15,9 +15,9 @@ def new_courier():
 
 @pytest.fixture
 def new_order():
-    black=OrderHelper.create_order(["BLACK"])  
+    black=OrderApi.create_order(["BLACK"])  
     
     black_track = black.json()['track'] 
     yield black_track
    
-    OrderHelper.cancel_order(black_track)
+    OrderApi.cancel_order(black_track)

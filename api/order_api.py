@@ -3,7 +3,7 @@ import requests
 from data.url import URL
 from data.constants import CreatedOrder
 
-class OrderHelper:
+class OrderApi:
 
     @staticmethod
     @allure.step("Создание заказа")

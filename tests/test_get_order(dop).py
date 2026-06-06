@@ -2,7 +2,7 @@ import allure
 import pytest
 import requests
 from data.url import URL
-from helpers.courier_api import CourierApi
+from api.courier_api import CourierApi
 @allure.feature("Поиск заказа")
 class TestGetOrderByTrack:
     @allure.title("Успешное получение заказа по трек-номеру (код 200)")
